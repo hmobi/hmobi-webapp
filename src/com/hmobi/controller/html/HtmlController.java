@@ -35,21 +35,21 @@ public class HtmlController extends BaseController
         {
             HMModelAndView modelAndView = new HMModelAndView("login");
             int errorCode = pad.getIntParameter("errorCode");
-            UserLogin user = UserUtil.getLoggedInUser();
-            logger.info("errorCode=" + errorCode + ", user=" + user);
-            if(user != null && errorCode != ErrorUtil.ERROR_ACCESS_DENIED)
-            {
-                logger.info("roles=" + user.getAuthorities()[0].getAuthority());
-                if("ROLE_USER".equals(user.getAuthorities()[0].getAuthority()))
-                    pad.sendRedirect("user/login");
-            }
-            else if(errorCode == ErrorUtil.ERROR_ACCESS_DENIED)
+            logger.info("errorCode=" + errorCode);
+            if(errorCode == ErrorUtil.ERROR_ACCESS_DENIED)
                 modelAndView.addObject("errorMsg",ErrorUtil.ACCESS_DENIED_MSG);
             else if(errorCode == ErrorUtil.ERROR_INVALID_CREDENTIALS)
                 modelAndView.addObject("errorMsg",ErrorUtil.INVALID_CREDENTIALS_MSG);
-
+            else
+            {
+                UserLogin user = UserUtil.getLoggedInUser();
+                if(user != null)
+                {
+                    if("ROLE_USER".equals(user.getAuthorities()[0].getAuthority()))
+                        pad.sendRedirect("user/login");
+                }
+            }
             return modelAndView;
         }
-
     }
 }
