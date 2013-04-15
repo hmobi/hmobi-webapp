@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<project name="hmobi" default="all">
+
+    <property name="lib.dir" value="lib"/>
+    <property name="src.dir" value="src"/>
+    <property name="resources.dir" value="resources"/>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete dir="deploy"/>
+    </target>
+
+    <target name="init" depends="clean">
+        <mkdir dir="build"/>
+        <mkdir dir="deploy"/>
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="compile" depends="init">
+        <javac debug="on" srcdir="${src.dir}" destdir="build/classes">
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </javac>
+
+    </target>
+
+    <target name="deploy" depends="compile">
+        <copy todir="deploy/jsp">
+            <fileset dir="resources/jsp"/>
+        </copy>
+        <copy todir="deploy/img">
+            <fileset dir="resources/img"/>
+        </copy>
+	<copy todir="deploy/css">
+            <fileset dir="resources/css"/>
+        </copy>
+        <copy todir="deploy/WEB-INF">
+            <fileset dir="resources/WEB-INF"/>
+        </copy>
+        <copy todir="deploy/WEB-INF/classes">
+            <fileset dir="build/classes"/>
+        </copy>
+        <copy todir="deploy/WEB-INF/classes">
+            <fileset dir="config"/>
+        </copy>
+        <copy todir="deploy/WEB-INF/lib">
+            <fileset dir="lib"/>
+        </copy>
+    </target>
+
+    <target name="war" depends="deploy">
+    	<war destfile="deploy/hmobi.war" basedir="deploy"/>
+    </target>
+
+    <target name="all" depends="war">
+    </target>
+
+</project>
