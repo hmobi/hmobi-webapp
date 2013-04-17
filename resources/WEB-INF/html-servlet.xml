@@ -9,6 +9,7 @@
             <value>
                 /index.html=htmlController
                 /signup.html=htmlController
+                /**/search.html=htmlController
             </value>
         </property>
     </bean>

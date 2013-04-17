@@ -1,8 +1,11 @@
 package com.hmobi.service.user;
 
+import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
 import com.hmobi.dbmanager.DBManagerFactory;
 import com.hmobi.dbmanager.user.UserDBManager;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,5 +21,10 @@ public class UserServiceImpl implements UserService
     public UserLogin loadUserByUsername(String userName)
     {
         return userDBManager.loadUserByUsername(userName);
+    }
+
+    public List<Address> getAddresses(String location)
+    {
+        return userDBManager.getDBAddresses(location);
     }
 }

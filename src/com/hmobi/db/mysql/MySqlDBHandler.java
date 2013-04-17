@@ -1,6 +1,7 @@
 package com.hmobi.db.mysql;
 
 import com.hmobi.db.DBHandler;
+import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
 import com.hmobi.db.util.QueryUtil;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -11,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -78,6 +81,50 @@ public class MySqlDBHandler implements DBHandler
                 dbUser.setPassword(password);
                 return dbUser;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }  catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try
+            {
+                conn.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public List<DBAddress> getDBAddresses(String location)
+    {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = (Connection)connPool.getConnection();
+            st = conn.prepareStatement(QueryUtil.GET_ADDRESSES);
+            st.setString(1, location);
+            ResultSet rs = st.executeQuery();
+            List<DBAddress> addresses = new ArrayList<DBAddress>();
+            while(rs.next())
+            {
+                String address = rs.getString("address");
+                String address2 = rs.getString("address2");
+                String state = rs.getString("state");
+                String city = rs.getString("city");
+                String country = rs.getString("country");
+                DBAddress dbAddress = new DBAddress();
+                dbAddress.setAddress(address);
+                dbAddress.setAddress2(address2);
+                dbAddress.setState(state);
+                dbAddress.setCity(city);
+                dbAddress.setCountry(country);
+                addresses.add(dbAddress);
+            }
+            return addresses;
 
         } catch (SQLException e) {
             e.printStackTrace();

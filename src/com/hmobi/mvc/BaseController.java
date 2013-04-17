@@ -1,6 +1,8 @@
 package com.hmobi.mvc;
 
 import com.hmobi.httppad.HttpPad;
+import com.hmobi.service.ServiceFactory;
+import com.hmobi.service.user.UserService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class BaseController extends AbstractController
 {
+    protected UserService userService = ServiceFactory.getService(UserService.class);
+
     @Override
     protected HMModelAndView handleRequestInternal(HttpServletRequest request,
                                                  HttpServletResponse response) throws Exception

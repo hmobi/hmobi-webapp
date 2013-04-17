@@ -10,4 +10,6 @@ package com.hmobi.db.util;
 public class QueryUtil
 {
     public static final String GET_USER = "select * from user where username=?";
+
+    public static final String GET_ADDRESSES = "select * from address where city=?";
 }

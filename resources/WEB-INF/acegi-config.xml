@@ -24,6 +24,7 @@
 					class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
 			</list>
 		</constructor-arg>
+        <property name="filterProcessesUrl" value="/logout" />
 	</bean>
 
 	<bean id="authenticationProcessingFilter"
@@ -35,7 +36,7 @@
 		<property name="defaultTargetUrl"
 			value="/index.html" />
 		<property name="filterProcessesUrl"
-			value="/j_acegi_security_check" />
+			value="/security_check" />
 	</bean>
 
 	<bean id="securityContextHolderAwareRequestFilter"

@@ -1,6 +1,9 @@
 package com.hmobi.service.user;
 
+import com.hmobi.dao.user.Address;
 import org.acegisecurity.userdetails.UserDetailsService;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,5 +14,5 @@ import org.acegisecurity.userdetails.UserDetailsService;
  */
 public interface UserService extends UserDetailsService
 {
-
+    public List<Address> getAddresses(String location);
 }

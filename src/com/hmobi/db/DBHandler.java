@@ -1,6 +1,9 @@
 package com.hmobi.db;
 
+import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,4 +15,6 @@ import com.hmobi.db.objects.user.DBUser;
 public interface DBHandler
 {
     public DBUser getDBUser(String username);
+    public List<DBAddress> getDBAddresses(String location);
+
 }

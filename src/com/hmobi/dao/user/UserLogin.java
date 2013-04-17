@@ -66,7 +66,7 @@ public class UserLogin implements UserDetails
         this.permissions = permissions;
     }
 
-    public void fillUser(DBUser dbUser)
+    public void fill(DBUser dbUser)
     {
         this.username = dbUser.getUsername();
         this.password = dbUser.getPassword();

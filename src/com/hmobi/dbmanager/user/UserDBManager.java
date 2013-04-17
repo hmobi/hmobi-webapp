@@ -1,6 +1,9 @@
 package com.hmobi.dbmanager.user;
 
+import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,4 +15,5 @@ import com.hmobi.dao.user.UserLogin;
 public interface UserDBManager
 {
     public UserLogin loadUserByUsername(String userName);
+    public List<Address> getDBAddresses(String location);
 }

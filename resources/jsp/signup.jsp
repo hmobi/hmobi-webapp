@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<%
-    out.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" + request.getContextPath() + "/css/hmobi.css\"/>");
-%>
+<link type="text/css" rel="stylesheet" href="css/hmobi.css"/>
 
 <title> Sign up | hMobi </title>
 </head>

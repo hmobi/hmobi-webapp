@@ -1,9 +1,15 @@
 package com.hmobi.dbmanager.user;
 
+import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
 import com.hmobi.db.DBHandler;
 import com.hmobi.db.mysql.MySqlDBHandler;
+import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
+import com.hmobi.dbmanager.AbstractDBManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,20 +18,35 @@ import com.hmobi.db.objects.user.DBUser;
  * Time: 7:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class UserDBManagerImpl implements UserDBManager
+public class UserDBManagerImpl extends AbstractDBManager implements UserDBManager
 {
-    private DBHandler dbHandler = MySqlDBHandler.getInstance();
-
     public UserLogin loadUserByUsername(String userName)
     {
-        DBUser dbUser = dbHandler.getDBUser(userName);
+        DBUser dbUser = getDbHandler().getDBUser(userName);
         if(dbUser == null)
         {
             return null;
 
         }
         UserLogin userLogin = new UserLogin();
-        userLogin.fillUser(dbUser);
+        userLogin.fill(dbUser);
         return userLogin;
+    }
+
+    public List<Address> getDBAddresses(String location)
+    {
+        List<DBAddress> addresses = getDbHandler().getDBAddresses(location);
+
+        if(addresses == null)
+            return null;
+        List<Address> retAddrs = new ArrayList<Address>();
+        for(DBAddress address: addresses)
+        {
+            Address addr = new Address();
+            addr.fill(address);
+            retAddrs.add(addr);
+
+        }
+        return retAddrs;
     }
 }
