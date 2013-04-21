@@ -2,6 +2,7 @@ package com.hmobi.service.user;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
+import com.hmobi.dao.user.UserSignUp;
 import com.hmobi.dbmanager.DBManagerFactory;
 import com.hmobi.dbmanager.user.UserDBManager;
 
@@ -26,5 +27,9 @@ public class UserServiceImpl implements UserService
     public List<Address> getAddresses(String location)
     {
         return userDBManager.getDBAddresses(location);
+    }
+    public void signUpUser(UserSignUp usu)
+    {
+    	userDBManager.signUpUser(usu);
     }
 }

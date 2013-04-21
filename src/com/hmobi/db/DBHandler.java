@@ -1,5 +1,6 @@
 package com.hmobi.db;
 
+import com.hmobi.dao.user.UserSignUp;
 import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
 
@@ -16,5 +17,6 @@ public interface DBHandler
 {
     public DBUser getDBUser(String username);
     public List<DBAddress> getDBAddresses(String location);
+    public void signUpUser(DBUser usu);
 
 }

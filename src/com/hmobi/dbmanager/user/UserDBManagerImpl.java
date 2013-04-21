@@ -2,6 +2,7 @@ package com.hmobi.dbmanager.user;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
+import com.hmobi.dao.user.UserSignUp;
 import com.hmobi.db.DBHandler;
 import com.hmobi.db.mysql.MySqlDBHandler;
 import com.hmobi.db.objects.user.DBAddress;
@@ -48,5 +49,14 @@ public class UserDBManagerImpl extends AbstractDBManager implements UserDBManage
 
         }
         return retAddrs;
+    }
+    public void signUpUser(UserSignUp usu)
+    {
+    	DBUser dbUser = new DBUser();
+    	dbUser.setEmail(usu.getEmail());
+    	dbUser.setUsername(usu.getUsername());
+    	dbUser.setPassword(usu.getPassword());
+    	
+    	getDbHandler().signUpUser(dbUser);
     }
 }

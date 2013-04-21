@@ -2,6 +2,7 @@ package com.hmobi.dbmanager.user;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
+import com.hmobi.dao.user.UserSignUp;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface UserDBManager
 {
     public UserLogin loadUserByUsername(String userName);
     public List<Address> getDBAddresses(String location);
+    public void signUpUser(UserSignUp usu);
 }

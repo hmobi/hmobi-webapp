@@ -13,29 +13,12 @@
 		</h1>
 	</div>
 	<h1> Sign up for your own personal hMobi account! </h1>
-	<form name="FirstNameForm">
-		<p>First Name</p><input type="text" name="FirstNameItem"/>
-	</form>
-	<br/>
-	<form name="LastNameForm">
-		<p>Last Name</p><input type="text" name="LastNameItem"/>
-	</form>
-	<br/>
-	<form name="EmailForm">
-		<p>Email</p><input type="text" name="EmailItem"/>
-	</form>
-	<br/>
-	<form name="PasswordForm">
-		<p>Password</p><input type="text" name="PasswordItem"/>
-	</form>
-	<br/>
-	<form name="ConfirmPassForm">
-		<p>Confirm Password</p><input type="text" name="ConfirmPassItem"/>
-	</form>
-	<br/>
-	<div id="button">Sign up!</div>
-	<br/>
-
+		<form id="signUp" name="signUp" action="signup.html" method="POST">
+			<input type="text" name="email"/>
+            <input type="text" name="username"/>
+            <input type="password" name="password"/>
+            <input type="submit" value="signUp"/>
+    	</form>
 
 
 </body>

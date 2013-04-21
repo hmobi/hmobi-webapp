@@ -1,6 +1,8 @@
 package com.hmobi.service.user;
 
 import com.hmobi.dao.user.Address;
+import com.hmobi.dao.user.UserSignUp;
+
 import org.acegisecurity.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -15,4 +17,5 @@ import java.util.List;
 public interface UserService extends UserDetailsService
 {
     public List<Address> getAddresses(String location);
+    public void signUpUser(UserSignUp usu);
 }

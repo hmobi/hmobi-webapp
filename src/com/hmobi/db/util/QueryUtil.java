@@ -12,4 +12,6 @@ public class QueryUtil
     public static final String GET_USER = "select * from user where username=?";
 
     public static final String GET_ADDRESSES = "select * from address where city=?";
+    
+    public static final String ADD_USER = "insert into user (email, username, password) values (?, ?, ?)";
 }

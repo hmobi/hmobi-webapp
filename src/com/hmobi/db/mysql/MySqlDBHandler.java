@@ -1,5 +1,6 @@
 package com.hmobi.db.mysql;
 
+import com.hmobi.dao.user.UserSignUp;
 import com.hmobi.db.DBHandler;
 import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
@@ -37,7 +38,7 @@ public class MySqlDBHandler implements DBHandler
             connPool = new ComboPooledDataSource();
             connPool.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/hMOBI" + "?autoReconnect=true&characterEncoding=UTF-8");
             connPool.setUser("root");
-            connPool.setPassword("root");
+            connPool.setPassword("Cymbal25");
             connPool.setMaxStatementsPerConnection(100);
             connPool.setMaxPoolSize(maxActive);
             connPool.setAutoCommitOnClose(true);
@@ -141,5 +142,33 @@ public class MySqlDBHandler implements DBHandler
             }
         }
         return null;
+    }
+    public void signUpUser(DBUser usu)
+    {
+    	Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = (Connection)connPool.getConnection();
+            st = conn.prepareStatement(QueryUtil.ADD_USER);
+            st.setString(1, usu.getEmail());
+            st.setString(2, usu.getUsername());
+            st.setString(3, usu.getPassword());
+            st.execute();
+            
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+        }  catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try
+            {
+                conn.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

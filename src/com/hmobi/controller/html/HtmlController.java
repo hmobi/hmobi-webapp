@@ -2,6 +2,7 @@ package com.hmobi.controller.html;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
+import com.hmobi.dao.user.UserSignUp;
 import com.hmobi.httppad.HttpPad;
 import com.hmobi.mvc.BaseController;
 import com.hmobi.mvc.HMModelAndView;
@@ -52,6 +53,15 @@ public class HtmlController extends BaseController
         else if(servletPath.contains("/signup.html"))
         {
             HMModelAndView modelAndView = new HMModelAndView("signup");
+            String email = pad.getParameter("email");
+            String username = pad.getParameter("username");
+            String password = pad.getParameter("password");
+            logger.info(email + "::::" + username + "::::: " + password);
+            UserSignUp usu = new UserSignUp();
+            usu.setEmail(email);
+            usu.setPassword(password);
+            usu.setUsername(username);
+            userService.signUpUser(usu);
             return modelAndView;
         }
         else if(servletPath.contains("/search.html"))
