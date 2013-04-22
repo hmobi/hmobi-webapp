@@ -1,4 +1,4 @@
-package com.hmobi.dbmanager.user;
+package com.hmobi.datamanager.user;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
@@ -13,9 +13,9 @@ import java.util.List;
  * Time: 7:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface UserDBManager
+public interface UserDataManager
 {
     public UserLogin loadUserByUsername(String userName);
-    public List<Address> getDBAddresses(String location);
+    public List<Address> getAddresses(String location);
     public void signUpUser(UserSignUp usu);
 }

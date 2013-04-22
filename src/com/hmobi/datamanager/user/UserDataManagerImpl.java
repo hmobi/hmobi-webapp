@@ -1,13 +1,11 @@
-package com.hmobi.dbmanager.user;
+package com.hmobi.datamanager.user;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
 import com.hmobi.dao.user.UserSignUp;
-import com.hmobi.db.DBHandler;
-import com.hmobi.db.mysql.MySqlDBHandler;
 import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
-import com.hmobi.dbmanager.AbstractDBManager;
+import com.hmobi.datamanager.AbstractDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,24 +17,23 @@ import java.util.List;
  * Time: 7:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class UserDBManagerImpl extends AbstractDBManager implements UserDBManager
+public class UserDataManagerImpl extends AbstractDataManager implements UserDataManager
 {
     public UserLogin loadUserByUsername(String userName)
     {
-        DBUser dbUser = getDbHandler().getDBUser(userName);
+        DBUser dbUser = getDBManager().getDBUser(userName);
         if(dbUser == null)
         {
             return null;
-
         }
         UserLogin userLogin = new UserLogin();
         userLogin.fill(dbUser);
         return userLogin;
     }
 
-    public List<Address> getDBAddresses(String location)
+    public List<Address> getAddresses(String location)
     {
-        List<DBAddress> addresses = getDbHandler().getDBAddresses(location);
+        List<DBAddress> addresses = getDBManager().getDBAddresses(location);
 
         if(addresses == null)
             return null;
@@ -57,6 +54,6 @@ public class UserDBManagerImpl extends AbstractDBManager implements UserDBManage
     	dbUser.setUsername(usu.getUsername());
     	dbUser.setPassword(usu.getPassword());
     	
-    	getDbHandler().signUpUser(dbUser);
+    	getDBManager().signUpUser(dbUser);
     }
 }

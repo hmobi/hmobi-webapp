@@ -75,21 +75,11 @@
         <url-pattern>/admin/*</url-pattern>
     </servlet-mapping>
 
-    <!--servlet>
+    <servlet>
         <servlet-name>HMMainServlet</servlet-name>
         <servlet-class>com.hmobi.servlet.HMMainServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <servlet-mapping>
-        <servlet-name>HMMainServlet</servlet-name>
-        <url-pattern>/secure/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>HMMainServlet</servlet-name>
-        <url-pattern>/admin/*</url-pattern>
-    </servlet-mapping-->
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -3,8 +3,8 @@ package com.hmobi.service.user;
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
 import com.hmobi.dao.user.UserSignUp;
-import com.hmobi.dbmanager.DBManagerFactory;
-import com.hmobi.dbmanager.user.UserDBManager;
+import com.hmobi.datamanager.DataManagerFactory;
+import com.hmobi.datamanager.user.UserDataManager;
 
 import java.util.List;
 
@@ -17,19 +17,19 @@ import java.util.List;
  */
 public class UserServiceImpl implements UserService
 {
-    private UserDBManager userDBManager = DBManagerFactory.getDBManager(UserDBManager.class);
+    private UserDataManager userDataManager = DataManagerFactory.getDataManager(UserDataManager.class);
 
     public UserLogin loadUserByUsername(String userName)
     {
-        return userDBManager.loadUserByUsername(userName);
+        return userDataManager.loadUserByUsername(userName);
     }
 
     public List<Address> getAddresses(String location)
     {
-        return userDBManager.getDBAddresses(location);
+        return userDataManager.getAddresses(location);
     }
     public void signUpUser(UserSignUp usu)
     {
-    	userDBManager.signUpUser(usu);
+    	userDataManager.signUpUser(usu);
     }
 }

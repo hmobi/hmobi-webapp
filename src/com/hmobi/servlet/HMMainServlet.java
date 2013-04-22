@@ -1,5 +1,7 @@
 package com.hmobi.servlet;
 
+import com.hmobi.config.HMobiConfig;
+import com.hmobi.context.ContextManager;
 import com.hmobi.dao.user.UserLogin;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.User;
@@ -11,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +27,9 @@ public class HMMainServlet extends HttpServlet
     public void init(ServletConfig config) throws javax.servlet.ServletException
     {
         super.init(config);
-        System.out.println("Initialized HMMainServlet...");
+        System.out.println("Initializing HMMainServlet...");
+        HMobiConfig.getInstance().loadProperties("hmobi.properties");
+        ContextManager.getInstance();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

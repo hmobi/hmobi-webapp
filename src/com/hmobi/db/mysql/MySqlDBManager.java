@@ -1,14 +1,18 @@
 package com.hmobi.db.mysql;
 
-import com.hmobi.dao.user.UserSignUp;
-import com.hmobi.db.DBHandler;
+import com.hmobi.config.HMobiConfig;
+import com.hmobi.db.DBManager;
 import com.hmobi.db.objects.user.DBAddress;
 import com.hmobi.db.objects.user.DBUser;
 import com.hmobi.db.util.QueryUtil;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,45 +27,17 @@ import java.util.List;
  * Time: 7:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MySqlDBHandler implements DBHandler
+public class MySqlDBManager implements DBManager
 {
-    private static Logger logger = LoggerFactory.getLogger(MySqlDBHandler.class.getCanonicalName());
+    private static Logger logger = LoggerFactory.getLogger(MySqlDBManager.class.getCanonicalName());
 
-    private static MySqlDBHandler mySqlDBHandler;
+    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
-    private ComboPooledDataSource connPool;
-
-    private MySqlDBHandler(int maxActive)
+    public void setDataSource(DataSource dataSource)
     {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connPool = new ComboPooledDataSource();
-            connPool.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/hMOBI" + "?autoReconnect=true&characterEncoding=UTF-8");
-            connPool.setUser("root");
-            connPool.setPassword("Cymbal25");
-            connPool.setMaxStatementsPerConnection(100);
-            connPool.setMaxPoolSize(maxActive);
-            connPool.setAutoCommitOnClose(true);
-            logger.info("Connection pool is established. pool:"+connPool);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static MySqlDBHandler getInstance()
-    {
-        if(mySqlDBHandler == null)
-        {
-            synchronized (MySqlDBHandler.class)
-            {
-                if(mySqlDBHandler == null)
-                {
-                    mySqlDBHandler = new MySqlDBHandler(100);
-                }
-            }
-        }
-
-        return mySqlDBHandler;
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public DBUser getDBUser(String username)
@@ -69,7 +45,7 @@ public class MySqlDBHandler implements DBHandler
         Connection conn = null;
         PreparedStatement st = null;
         try {
-            conn = (Connection)connPool.getConnection();
+            conn = DataSourceUtils.getConnection(dataSource);
             st = conn.prepareStatement(QueryUtil.GET_USER);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
@@ -105,7 +81,7 @@ public class MySqlDBHandler implements DBHandler
         Connection conn = null;
         PreparedStatement st = null;
         try {
-            conn = (Connection)connPool.getConnection();
+            conn = DataSourceUtils.getConnection(dataSource);
             st = conn.prepareStatement(QueryUtil.GET_ADDRESSES);
             st.setString(1, location);
             ResultSet rs = st.executeQuery();
@@ -143,32 +119,10 @@ public class MySqlDBHandler implements DBHandler
         }
         return null;
     }
+
+    @Transactional
     public void signUpUser(DBUser usu)
     {
-    	Connection conn = null;
-        PreparedStatement st = null;
-        try {
-            conn = (Connection)connPool.getConnection();
-            st = conn.prepareStatement(QueryUtil.ADD_USER);
-            st.setString(1, usu.getEmail());
-            st.setString(2, usu.getUsername());
-            st.setString(3, usu.getPassword());
-            st.execute();
-            
-
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-        }  catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try
-            {
-                conn.close();
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+        this.jdbcTemplate.update(QueryUtil.ADD_USER, usu.getEmail(), usu.getUsername(),usu.getPassword());
     }
 }

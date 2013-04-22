@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 7:19 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface DBHandler
+public interface DBManager
 {
     public DBUser getDBUser(String username);
     public List<DBAddress> getDBAddresses(String location);
