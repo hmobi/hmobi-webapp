@@ -47,13 +47,16 @@ public class UserDataManagerImpl extends AbstractDataManager implements UserData
         }
         return retAddrs;
     }
-    public void signUpUser(UserSignUp usu)
+    public UserLogin signUpUser(UserSignUp usu)
     {
     	DBUser dbUser = new DBUser();
     	dbUser.setEmail(usu.getEmail());
     	dbUser.setUsername(usu.getUsername());
     	dbUser.setPassword(usu.getPassword());
-    	
     	getDBManager().signUpUser(dbUser);
+        //fetch from db here
+        UserLogin userLogin = new UserLogin();
+        userLogin.fill(dbUser);
+        return userLogin;
     }
 }

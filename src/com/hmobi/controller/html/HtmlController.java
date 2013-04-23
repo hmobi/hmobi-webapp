@@ -8,6 +8,9 @@ import com.hmobi.mvc.BaseController;
 import com.hmobi.mvc.HMModelAndView;
 import com.hmobi.utils.ErrorUtil;
 import com.hmobi.utils.UserUtil;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,25 +47,40 @@ public class HtmlController extends BaseController
                 UserLogin user = UserUtil.getLoggedInUser();
                 if(user != null)
                 {
-                    if("ROLE_USER".equals(user.getAuthorities()[0].getAuthority()))
-                        pad.sendRedirect("user/login");
+                    logger.info(user + "::::" + user.getUsername() + "::::: " + user.getPassword());
+                    redirectUserBasedOnRole(user, pad);
                 }
             }
             return modelAndView;
         }
+        else if(servletPath.contains("/accessdenied.html"))
+        {
+            HMModelAndView modelAndView = new HMModelAndView("accessdenied");
+            return modelAndView;
+        }
         else if(servletPath.contains("/signup.html"))
         {
-            HMModelAndView modelAndView = new HMModelAndView("signup");
             String email = pad.getParameter("email");
             String username = pad.getParameter("username");
             String password = pad.getParameter("password");
-            logger.info(email + "::::" + username + "::::: " + password);
-            UserSignUp usu = new UserSignUp();
-            usu.setEmail(email);
-            usu.setPassword(password);
-            usu.setUsername(username);
-            userService.signUpUser(usu);
-            return modelAndView;
+            if(email != null && username != null && password != null)
+            {
+                logger.info(email + "::::" + username + "::::: " + password);
+                UserSignUp usu = new UserSignUp();
+                usu.setEmail(email);
+                usu.setPassword(password);
+                usu.setUsername(username);
+                UserLogin user = userService.signUpUser(usu);
+                Authentication auth = new UsernamePasswordAuthenticationToken(user,user.getPassword(), user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                redirectUserBasedOnRole(user,pad);
+            }
+            else
+            {
+                HMModelAndView modelAndView = new HMModelAndView("signup");
+                return modelAndView;
+            }
+
         }
         else if(servletPath.contains("/search.html"))
         {

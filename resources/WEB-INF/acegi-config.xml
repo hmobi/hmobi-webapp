@@ -60,7 +60,7 @@
 		<property name="accessDeniedHandler">
 			<bean
 				class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
-				<property name="errorPage" value="/index.html?errorCode=2" />
+				<property name="errorPage" value="/accessdenied.html" />
 			</bean>
 		</property>
 	</bean>
@@ -72,8 +72,9 @@
 		<property name="objectDefinitionSource">
 			<value>
 				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
-				PATTERN_TYPE_APACHE_ANT 
-				/admin/**=ROLE_ADMIN
+				PATTERN_TYPE_APACHE_ANT
+                /jsp/**=ROLE_ADMIN
+                /admin/**=ROLE_ADMIN
 				/user/**=ROLE_ADMIN,ROLE_USER
 				/**=IS_AUTHENTICATED_ANONYMOUSLY
 			</value>

@@ -17,5 +17,5 @@ public interface UserDataManager
 {
     public UserLogin loadUserByUsername(String userName);
     public List<Address> getAddresses(String location);
-    public void signUpUser(UserSignUp usu);
+    public UserLogin signUpUser(UserSignUp usu);
 }

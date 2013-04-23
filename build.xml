@@ -36,8 +36,8 @@
         <copy todir="deploy/img">
             <fileset dir="resources/img"/>
         </copy>
-        <copy todir="deploy/scripts">
-            <fileset dir="resources/scripts"/>
+        <copy todir="deploy/js">
+            <fileset dir="resources/js"/>
         </copy>
 	<copy todir="deploy/css">
             <fileset dir="resources/css"/>

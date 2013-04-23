@@ -16,9 +16,8 @@ public class UserLoginController extends BaseController
     @Override
     protected HMModelAndView handleRequest(HttpPad pad) throws Exception {
 
-        HMModelAndView modelAndView = new HMModelAndView("login");
         UserLogin user = UserUtil.getLoggedInUser();
-
+        logger.info("user :::: " + user);
         if(user == null)
         {
             //not logged in
@@ -26,10 +25,13 @@ public class UserLoginController extends BaseController
         }
         else
         {
+            logger.info(user + "::::" + user.getUsername() + "::::: " + user.getPassword());
             //logged in
+            HMModelAndView modelAndView = new HMModelAndView("login");
             modelAndView.addObject("user", user.getUsername());
+            return modelAndView;
         }
 
-        return modelAndView;
+        return null;
     }
 }

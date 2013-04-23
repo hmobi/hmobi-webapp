@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService
     {
         return userDataManager.getAddresses(location);
     }
-    public void signUpUser(UserSignUp usu)
+    public UserLogin signUpUser(UserSignUp usu)
     {
-    	userDataManager.signUpUser(usu);
+    	return userDataManager.signUpUser(usu);
     }
 }

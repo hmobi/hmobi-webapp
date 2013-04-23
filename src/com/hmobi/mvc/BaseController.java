@@ -1,5 +1,6 @@
 package com.hmobi.mvc;
 
+import com.hmobi.dao.user.UserLogin;
 import com.hmobi.httppad.HttpPad;
 import com.hmobi.service.ServiceFactory;
 import com.hmobi.service.user.UserService;
@@ -26,6 +27,12 @@ public abstract class BaseController extends AbstractController
     {
         HttpPad pad = new HttpPad(request, response);
         return handleRequest(pad);
+    }
+
+    protected void redirectUserBasedOnRole(UserLogin user, HttpPad pad) throws Exception
+    {
+        if("ROLE_USER".equals(user.getAuthorities()[0].getAuthority()))
+            pad.sendRedirect("user/login");
     }
 
     protected abstract HMModelAndView handleRequest(HttpPad pad) throws Exception;
