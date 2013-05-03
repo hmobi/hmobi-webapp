@@ -11,11 +11,14 @@
                 /signup.html=htmlController
                 /accessdenied.html=htmlController
                 /**/search.html=htmlController
+                /google.html=googleController
             </value>
         </property>
     </bean>
 
     <bean name="htmlController" class="com.hmobi.controller.html.HtmlController" />
+
+    <bean name="googleController" class="com.hmobi.controller.html.GoogleController" />
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
         <property name="prefix">

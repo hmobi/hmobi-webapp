@@ -2,11 +2,13 @@ package com.hmobi.controller.html;
 
 import com.hmobi.dao.user.Address;
 import com.hmobi.dao.user.UserLogin;
+import com.hmobi.dao.user.UserPermissions;
 import com.hmobi.dao.user.UserSignUp;
 import com.hmobi.httppad.HttpPad;
 import com.hmobi.mvc.BaseController;
 import com.hmobi.mvc.HMModelAndView;
 import com.hmobi.utils.ErrorUtil;
+import com.hmobi.utils.PageUtil;
 import com.hmobi.utils.UserUtil;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContextHolder;
@@ -33,9 +35,9 @@ public class HtmlController extends BaseController
         //change view according to type of user. For now we only have one view in login.jsp
         String servletPath = pad.getServletPath();
 
-        if(servletPath.contains("/index.html"))
+        if(servletPath.contains(PageUtil.INDEX_HTML))
         {
-            HMModelAndView modelAndView = new HMModelAndView("index");
+            HMModelAndView modelAndView = new HMModelAndView(PageUtil.INDEX);
             int errorCode = pad.getIntParameter("errorCode");
             logger.info("errorCode=" + errorCode);
             if(errorCode == ErrorUtil.ERROR_ACCESS_DENIED)
@@ -53,12 +55,12 @@ public class HtmlController extends BaseController
             }
             return modelAndView;
         }
-        else if(servletPath.contains("/accessdenied.html"))
+        else if(servletPath.contains(PageUtil.ACCESS_DENIED_HTML))
         {
-            HMModelAndView modelAndView = new HMModelAndView("accessdenied");
+            HMModelAndView modelAndView = new HMModelAndView(PageUtil.ACCESS_DENIED);
             return modelAndView;
         }
-        else if(servletPath.contains("/signup.html"))
+        else if(servletPath.contains(PageUtil.SIGN_UP_HTML))
         {
             String email = pad.getParameter("email");
             String username = pad.getParameter("username");
@@ -77,14 +79,14 @@ public class HtmlController extends BaseController
             }
             else
             {
-                HMModelAndView modelAndView = new HMModelAndView("signup");
+                HMModelAndView modelAndView = new HMModelAndView(PageUtil.SIGN_UP);
                 return modelAndView;
             }
 
         }
-        else if(servletPath.contains("/search.html"))
+        else if(servletPath.contains(PageUtil.SEARCH_HTML))
         {
-            HMModelAndView modelAndView = new HMModelAndView("search");
+            HMModelAndView modelAndView = new HMModelAndView(PageUtil.SEARCH);
             String location = pad.getParameter("location");
             System.out.println("location is -> " + location);
             List<Address> addresses = userService.getAddresses(location);

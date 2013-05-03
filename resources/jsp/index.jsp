@@ -23,8 +23,13 @@
                         <input type="text" name="j_username"/>
                         <input type="password" name="j_password"/>
                         <input type="submit" value="Login"/>
-                        <a href="signup.html">Sign Up</a>
                 </form>
+
+                <form id="loginGoogle" name="loginFormGoogle" action="google.html" method="POST">
+                        <input type="submit" value="Login with Google"/>
+                </form>
+
+                <a href="signup.html">Sign Up</a>
 
 
         </div>

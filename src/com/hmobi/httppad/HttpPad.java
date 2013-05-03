@@ -36,11 +36,21 @@ public class HttpPad
 
     public void sendRedirect(String url) throws Exception
     {
-        response.sendRedirect(request.getContextPath() + "/" + url);
+        sendAbsoluteRedirect(request.getContextPath() + "/" + url);
+    }
+
+    public void sendAbsoluteRedirect(String url) throws Exception
+    {
+        response.sendRedirect(url);
     }
 
     public String getServletPath()
     {
         return request.getServletPath();
+    }
+
+    public String getSessionId()
+    {
+        return request.getSession().getId();
     }
 }

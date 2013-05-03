@@ -13,6 +13,7 @@
     <target name="init" depends="clean">
         <mkdir dir="build"/>
         <mkdir dir="deploy"/>
+        <mkdir dir="deploy/hmobi"/>
         <mkdir dir="build/classes"/>
     </target>
 
@@ -30,34 +31,34 @@
     </target>
 
     <target name="deploy" depends="compile">
-        <copy todir="deploy/jsp">
+        <copy todir="deploy/hmobi/jsp">
             <fileset dir="resources/jsp"/>
         </copy>
-        <copy todir="deploy/img">
+        <copy todir="deploy/hmobi/img">
             <fileset dir="resources/img"/>
         </copy>
-        <copy todir="deploy/js">
+        <copy todir="deploy/hmobi/js">
             <fileset dir="resources/js"/>
         </copy>
-	<copy todir="deploy/css">
+	<copy todir="deploy/hmobi/css">
             <fileset dir="resources/css"/>
         </copy>
-        <copy todir="deploy/WEB-INF">
+        <copy todir="deploy/hmobi/WEB-INF">
             <fileset dir="resources/WEB-INF"/>
         </copy>
-        <copy todir="deploy/WEB-INF/classes">
+        <copy todir="deploy/hmobi/WEB-INF/classes">
             <fileset dir="build/classes"/>
         </copy>
-        <copy todir="deploy/WEB-INF/classes">
+        <copy todir="deploy/hmobi/WEB-INF/classes">
             <fileset dir="config"/>
         </copy>
-        <copy todir="deploy/WEB-INF/lib">
+        <copy todir="deploy/hmobi/WEB-INF/lib">
             <fileset dir="lib"/>
         </copy>
     </target>
 
     <target name="war" depends="deploy">
-    	<war destfile="deploy/hmobi.war" basedir="deploy"/>
+    	<war destfile="deploy/hmobi.war" basedir="deploy/hmobi"/>
     </target>
 
     <target name="all" depends="war">
