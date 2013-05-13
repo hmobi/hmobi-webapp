@@ -39,54 +39,42 @@ CREATE TABLE address (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- Person Table: Stores the Contact Information of HCP (Medical Professionals, Doctor's staff) and Patients
-CREATE TABLE person (
-  person_id INT(11) UNSIGNED NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL,
-  professional_type VARCHAR(30) NOT NULL,
-  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (person_id),
-  KEY idx_person_last_name (last_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Account Person Intersection table for M:M relationship
-CREATE TABLE acc_per_int (
-  acc_per_int_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+-- Account user Intersection table for M:M relationship
+CREATE TABLE acc_user_int (
+  acc_user_int_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   accnt_id INT(11) UNSIGNED NOT NULL,
-  person_id INT(11) UNSIGNED NOT NULL,
+  user_id INT(11) UNSIGNED NOT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (acc_per_int_id),
+  PRIMARY KEY (acc_user_int_id),
   KEY idx_accnt_id (accnt_id),
-  KEY idx_person_id (person_id),
-  CONSTRAINT accper_person_id FOREIGN KEY (person_id) REFERENCES person (person_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT accper_accnt_id FOREIGN KEY (accnt_id) REFERENCES account (account_id) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY idx_user_id (user_id),
+  CONSTRAINT accuser_user_id FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT accuser_accnt_id FOREIGN KEY (accnt_id) REFERENCES account (account_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Profile Table 1:1 with person
+-- Profile Table 1:1 with user
 CREATE TABLE profile (
   profile_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  per_id INT(11) UNSIGNED NOT NULL,
+  user_id INT(11) UNSIGNED NOT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (profile_id),
-  KEY idx_profile_per_id (per_id),
-  CONSTRAINT profile_per_id FOREIGN KEY (per_id) REFERENCES person (person_id) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY idx_profile_user_id (user_id),
+  CONSTRAINT profile_user_id FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- User Table 1:1 with Person
+-- User Table 1:1 with user
 CREATE TABLE user (
   user_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  per_id INT(11) UNSIGNED DEFAULT NULL,
   first_name VARCHAR(45) DEFAULT NULL,
   last_name VARCHAR(45) DEFAULT NULL,
-  email VARCHAR(50) DEFAULT NULL,
+  email VARCHAR(50) NOT NULL,
   active BOOLEAN NOT NULL DEFAULT TRUE,
   username VARCHAR(45) NOT NULL,
-  password VARCHAR(40) BINARY NOT NULL,
+  password VARCHAR(40) DEFAULT NULL,
+  professional_type VARCHAR(30) DEFAULT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id),
-  KEY idx_user_per_id (per_id),
   KEY idx_User_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -94,10 +82,28 @@ CREATE TABLE user (
 CREATE TABLE user_preferences (
   user_pref_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id INT(11) UNSIGNED NOT NULL,
-  persisit_login BOOLEAN DEFAULT NULL,
+  persist_login BOOLEAN DEFAULT NULL,
   geolocation VARCHAR(100) DEFAULT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (user_pref_id),
-  KEY idx_userpref_user__id (user_id)
+  KEY idx_userpref_user__id (user_id),
   CONSTRAINT userpref_user_id FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE events (
+  events_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id INT(11) UNSIGNED NOT NULL,
+  addr_id INT(11) UNSIGNED NOT NULL,
+  title VARCHAR(40) NOT NULL,
+  notes TEXT DEFAULT NULL,
+  start_date DATETIME NOT NULL,
+  end_date DATETIME NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  created_on DATETIME NOT NULL,
+  PRIMARY KEY(events_id),
+  INDEX start_date(start_date),
+  CONSTRAINT events_user_id FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT events_addr_id FOREIGN KEY (addr_id) REFERENCES address (address_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
